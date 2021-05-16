@@ -3,7 +3,7 @@
         <div class="head-left">
             <router-link class="logo" to="/">
                 <img src="../assets/images/logo2.png" alt="" />
-                <span>Albatross111</span>
+                <span>Albatross</span>
             </router-link>
         </div>
         <div class="head-right" v-if="!$route.path.includes('login')">
