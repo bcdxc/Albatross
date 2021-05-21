@@ -40,7 +40,6 @@ export default {
     },
     methods: {
         release() {
-            console.log(this.$route);
             // 发布话题之前需要先判断是否登录
             if (this.$store.state.token) {
                 this.$router.push({ name: "PostTopic" });

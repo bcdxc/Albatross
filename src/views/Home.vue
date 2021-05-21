@@ -1,106 +1,119 @@
 <template>
-    <div class="home">
-        <div class="main-left">
-            <Panel width="94%" v-if="isTopic">
-                <template #head>
-                    <div class="nav">
-                        <router-link
-                            :class="{
-                                'router-link-exact-active': isHomeActive,
-                            }"
-                            to="/all"
-                            >首页</router-link
-                        >
-                        <router-link to="/good">精华</router-link>
-                        <router-link to="/share">分享</router-link>
-                        <router-link to="/ask">问答</router-link>
-                        <router-link to="/job">招聘</router-link>
-                        <router-link to="/dev">客户端测试</router-link>
-                    </div>
-                </template>
-                <template #content>
-                    <div v-if="posts.length" class="con">
-                        <!-- 判断是必须要加的，不然一开始 可能会因为 下面的 posts 循环 而报错 -->
-                        <div
-                            class="content-item"
-                            v-for="post in posts"
-                            :key="post.id"
-                        >
-                            <div class="item-left">
-                                <router-link
-                                    class="a-avatar"
-                                    :to="{
-                                        name: 'UserInfo',
-                                        params: {
-                                            loginname: post.author.loginname,
-                                        },
-                                    }"
-                                >
-                                    <img
-                                        class="avatar"
-                                        :src="post.author.avatar_url"
-                                        alt=""
-                                        :title="post.author.loginname"
-                                    />
-                                </router-link>
-
-                                <span class="span-text">
-                                    <span>{{ post.reply_count }}</span>
-                                    <span class="small-text"
-                                        >/{{ post.visit_count }}</span
+    <div class="all">
+        <Header />
+        <div class="home">
+            <div class="main-left">
+                <Panel
+                    width="94%"
+                    class="home-panel"
+                    v-if="isTopic"
+                    v-loading="loading"
+                >
+                    <template #head>
+                        <div class="nav">
+                            <router-link
+                                :class="{
+                                    'router-link-exact-active': isHomeActive,
+                                }"
+                                to="/all"
+                                >首页</router-link
+                            >
+                            <router-link to="/good">精华</router-link>
+                            <router-link to="/share">分享</router-link>
+                            <router-link to="/ask">问答</router-link>
+                            <router-link to="/job">招聘</router-link>
+                            <router-link to="/dev">客户端测试</router-link>
+                        </div>
+                    </template>
+                    <template #content>
+                        <div v-if="posts.length" class="con">
+                            <!-- 判断是必须要加的，不然一开始 可能会因为 下面的 posts 循环 而报错 -->
+                            <div
+                                class="content-item"
+                                v-for="post in posts"
+                                :key="post.id"
+                            >
+                                <div class="item-left">
+                                    <router-link
+                                        class="a-avatar"
+                                        :to="{
+                                            name: 'UserInfo',
+                                            params: {
+                                                loginname:
+                                                    post.author.loginname,
+                                            },
+                                        }"
                                     >
-                                </span>
-                                <span
-                                    v-if="
-                                        !currentTab ||
-                                        post.top ||
-                                        post.good ||
-                                        currentTab === 'all'
-                                    "
-                                    :class="[
-                                        'span-tab',
-                                        post.top || post.good
-                                            ? 'active-bg'
-                                            : '',
-                                    ]"
-                                    >{{ post | formatTab }}</span
-                                >
-                                <router-link
-                                    class="title"
-                                    :to="{
-                                        name: 'Topic',
-                                        params: { topicId: post.id },
-                                    }"
-                                    >{{ post.title }}</router-link
-                                >
-                            </div>
-                            <div class="item-right">
-                                <span>{{
-                                    post.last_reply_at | filterMoment
-                                }}</span>
+                                        <img
+                                            class="avatar"
+                                            :src="post.author.avatar_url"
+                                            alt=""
+                                            :title="post.author.loginname"
+                                        />
+                                    </router-link>
+
+                                    <span class="span-text">
+                                        <span>{{ post.reply_count }}</span>
+                                        <span class="small-text"
+                                            >/{{ post.visit_count }}</span
+                                        >
+                                    </span>
+                                    <span
+                                        v-if="
+                                            !currentTab ||
+                                            post.top ||
+                                            post.good ||
+                                            currentTab === 'all'
+                                        "
+                                        :class="[
+                                            'span-tab',
+                                            post.top || post.good
+                                                ? 'active-bg'
+                                                : '',
+                                        ]"
+                                        >{{ post | formatTab }}</span
+                                    >
+                                    <router-link
+                                        class="title"
+                                        :to="{
+                                            name: 'Topic',
+                                            params: { topicId: post.id },
+                                        }"
+                                        >{{ post.title }}</router-link
+                                    >
+                                </div>
+                                <div class="item-right">
+                                    <span>{{
+                                        post.last_reply_at | filterMoment
+                                    }}</span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <el-pagination
-                        background
-                        layout="prev, pager, next"
-                        :total="400"
-                        :page-size="40"
-                        :current-page.sync="page"
-                        @current-change="changePage"
-                    >
-                    </el-pagination>
-                </template>
-            </Panel>
-            <!-- <router-view v-else-if="isTopic === 'Topic' || isTopic === 'PostTopic'" /> -->
-            <router-view v-else />
+                        <el-pagination
+                            background
+                            layout="prev, pager, next"
+                            :total="400"
+                            :page-size="40"
+                            :current-page.sync="page"
+                            @current-change="changePage"
+                        >
+                        </el-pagination>
+                    </template>
+                </Panel>
+                <!-- <router-view v-else-if="isTopic === 'Topic' || isTopic === 'PostTopic'" /> -->
+                <router-view v-else />
+            </div>
+            <div class="main-right">
+                <PerInfo />
+                <OtherInfo
+                    v-if="
+                        $route.name !== 'Topic' && $route.name !== 'PostTopic'
+                    "
+                />
+                <My />
+            </div>
         </div>
-        <div class="main-right">
-            <PerInfo />
-            <OtherInfo
-                v-if="$route.name !== 'Topic' && $route.name !== 'PostTopic'"
-            />
-        </div>
+        <Foot />
     </div>
 </template>
 
@@ -108,17 +121,24 @@
 import Panel from "../layout/Panel.vue";
 import PerInfo from "../components/PerInfo";
 import OtherInfo from "../components/OtherInfo.vue";
+import My from "../components/My.vue";
+import Header from "../components/Header";
+import Foot from "../components/Foot.vue";
 export default {
     name: "Home",
     components: {
         Panel,
         PerInfo,
         OtherInfo,
+        My,
+        Header,
+        Foot,
     },
     data() {
         return {
             posts: [],
             page: 1,
+            loading: true,
         };
     },
     computed: {
@@ -133,7 +153,8 @@ export default {
             return (
                 topicName !== "Topic" &&
                 topicName !== "PostTopic" &&
-                topicName !== "UserInfo"
+                topicName !== "UserInfo" &&
+                topicName !== "Unread"
             );
         },
     },
@@ -203,12 +224,17 @@ export default {
     },
     methods: {
         getPostsByPage(tab) {
+            this.loading = true;
             this.$axios({
                 method: "get",
                 url: `/topics?page=${this.page}&limit=40${tab}`,
             }).then((res) => {
                 // console.log(res.data);
                 this.posts = res.data;
+                this.loading = false;
+                // setTimeout(() => {
+                //     this.loading = false;
+                // }, 300);
             });
         },
         changePage() {
@@ -228,11 +254,14 @@ export default {
 <style lang="less">
 .home {
     width: 100%;
-    padding: 20px 120px 0;
+    padding: 35px 120px 0;
     display: flex;
     justify-content: space-between;
     .main-left {
         width: 78%;
+        .home-panel {
+            box-shadow: 6px 5px 4px 2px rgb(255 255 255 / 30%);
+        }
     }
 }
 .nav {
@@ -302,6 +331,7 @@ export default {
             transition: opacity 0.3s;
             &:hover {
                 opacity: 1;
+                text-decoration: underline;
             }
         }
         .active-bg {

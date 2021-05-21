@@ -28,6 +28,11 @@ const routes = [
         name: 'UserInfo',
         component: () => import('../views/UserInfo.vue')
       },
+      {
+        path: 'unread',
+        name: 'Unread',
+        component: () => import('../views/UnRead.vue')
+      },
     ]
   },
   {

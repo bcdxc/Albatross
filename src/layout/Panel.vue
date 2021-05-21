@@ -1,10 +1,7 @@
 <template>
     <!-- 这是一个布局组件 panel -->
     <div :style="{ width: formatWidth }" class="panel">
-        <div
-            class="head"
-            :style="{ height: formatHeight}"
-        >
+        <div class="head" :style="{ height: formatHeight }">
             <slot name="head" />
         </div>
         <div class="content">
@@ -46,7 +43,8 @@ export default {
 <style lang='less'>
 .panel {
     width: 100%;
-    background: #fff;
+    // background: #fff;
+    background: rgba(255, 255, 255, 0.6);
     border-radius: 6px;
     .head {
         // height: 40px;

@@ -2,16 +2,19 @@
     <div class="per-info">
         <Panel :width="280">
             <template #head>
-                <div class="head-mes">Albatross</div>
+                <div class="head-mes">JavaScript论坛</div>
             </template>
             <template #content>
-                <el-button
-                    v-if="!userInfo"
-                    type="primary"
-                    size="small"
-                    @click="login"
-                    >登陆</el-button
-                >
+                <div v-if="!userInfo">
+                    <p class="introduce">欢迎大家在本站交流分享JavaScript或Node经验！</p>
+                    <el-button
+                        type="primary"
+                        size="small"
+                        @click="login"
+                        >登陆</el-button
+                    >
+                </div>
+
                 <div class="show-mes" v-else>
                     <router-link
                         :to="{
@@ -67,6 +70,11 @@ export default {
     .head-mes {
         color: #000;
         opacity: 0.8;
+    }
+    .introduce{
+        margin: 0px 0 15px;
+        color: rgb(61, 59, 59);
+        font-size: 14px;
     }
     .show-mes {
         display: flex;
