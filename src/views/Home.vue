@@ -259,8 +259,10 @@ export default {
     justify-content: space-between;
     .main-left {
         width: 78%;
+        min-height: 800px;
         .home-panel {
             box-shadow: 6px 5px 4px 2px rgb(255 255 255 / 30%);
+            min-height: 700px;
         }
     }
 }

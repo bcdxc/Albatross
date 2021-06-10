@@ -16,6 +16,8 @@ export default {
             token: "",
         };
     },
+    created () {
+    },
     methods: {
         login() {
             // 18fc6f57-6c78-4b2b-9c9d-bb060b98d732

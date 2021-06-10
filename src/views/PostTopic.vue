@@ -49,6 +49,9 @@ export default {
             content: "",
         };
     },
+    created () {
+        console.log(this.$store.state.token);
+    },
     methods: {
         submit() {
             this.$axios({
